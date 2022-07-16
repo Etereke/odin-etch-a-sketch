@@ -20,7 +20,15 @@ function createGrid(blockNum){
     for(let i = 0; i < blockNum * blockNum; i++){
         const blockSize = (WINDOW_SIZE / blockNum).toString() + "px";
         const tempDiv = document.createElement('div');
+
+        //For identification purpose only
         tempDiv.classList.add('single-block');
+
+        //Store the current brightness and color so we can access and modify on hover
+        tempDiv.dataset.brightness = "100";
+        tempDiv.dataset.color = "white";
+
+        tempDiv.style.filter = `brightness(${tempDiv.dataset.brightness}%)`;
         tempDiv.style.width = blockSize;
         tempDiv.style.height = blockSize;
         drawingBoard.appendChild(tempDiv);
@@ -42,22 +50,47 @@ function changeResolution(){
 }
 
 
-//Helper functions, these are separate functions so that I can remove them as needed
+//Event functions, these are separate functions so that I can remove them as needed
+
+/*  
+    Only add the event listeners to the grid elements if a mousedown event happened, and remove on mouseup
+    This essentially means that we can choose when we want to draw by holding down the left mouse-button
+*/
 function mousedownEvent(e){
     gridDivs.forEach(gridElement => {
-        gridElement.addEventListener('mouseover', addListener);
+        gridElement.addEventListener('mouseover', changeColor);
     });
 }
 function mouseupEvent(e){
     gridDivs.forEach(gridElement => {
-        gridElement.removeEventListener('mouseover', addListener);
+        gridElement.removeEventListener('mouseover', changeColor);
     });
 }
+
 function resetBtnEvent(e){
-    gridDivs.forEach(gridElement => {
-        gridElement.classList.remove('colored');
-    });
+    createGrid(currentNumOfBlocks);
 }
-function addListener(e){
-    e.target.classList.add('colored');
+
+//For the extra credit, the base exercise only required an e.target.classlist.add or e.target.style.backgroundColor
+function changeColor(e){
+    if(e.target.dataset.color === "white"){
+        e.target.style.backgroundColor = getRandomColor();
+        e.target.dataset.color = e.target.style.backgroundColor;
+    }
+    else{
+        if(e.target.dataset.brightness > 0){
+            e.target.style.filter = `brightness(${+e.target.dataset.brightness - 10}%)`;
+            e.target.dataset.brightness = `${e.target.dataset.brightness - 10}`;
+        }
+    }
 }
+
+//Helper functions
+function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }

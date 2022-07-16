@@ -9,18 +9,9 @@ body{
     margin-bottom: 20px;
 }
 
-.single-block{
-    /* width: 60px;
-    height: 60px; */
-}
-
 .drawing-board{
     display: flex;
     width: 960px;
     flex-wrap: wrap;
     border: 1px solid black;
-}
-
-.colored{
-    background-color: crimson;
 }

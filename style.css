@@ -1,24 +1,20 @@
-.inline-block{
-    display: inline-block;
-}
-
 body{
     display: flex;
     justify-content: center;
 }
 
-.flex{
-    display: flex;
-}
-
 .single-block{
-    width: 62.5px;
-    height: 62.5px;
-    background-color: black;
+    width: 60px;
+    height: 60px;
 }
 
 .drawing-board{
     display: flex;
-    width: 1000px;
+    width: 960px;
     flex-wrap: wrap;
+    border: 1px solid black;
+}
+
+.colored{
+    background-color: crimson;
 }
